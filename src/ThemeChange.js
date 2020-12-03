@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
+
+// Get the OS' prefers-color-scheme, for use in the default setTheme in useState
+const darkmodePref = window.matchMedia("(prefers-color-scheme: dark )")
+
+
 export function ThemeChange() {
-    // Get the OS' prefers-color-scheme, for use in the default setTheme in useState
-    const darkmodePref = window.matchMedia("(prefers-color-scheme: dark )")
+  
     function getDefaultColor(){
         return localStorage.getItem('theme') ? localStorage.getItem('theme') : 
         darkmodePref.matches ? 'dark' : 'light'
