@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 export function ThemeChange() {
     // Get the OS' prefers-color-scheme, for use in the default setTheme in useState
+    const darkmodePref = window.matchMedia("(prefers-color-scheme: dark )")
     function getDefaultColor(){
         return localStorage.getItem('theme') ? localStorage.getItem('theme') : 
-            matchMedia(" (prefers-color-scheme: dark )").matches ? 'dark' : 'light'
+        darkmodePref.matches ? 'dark' : 'light'
     }
     
     // Creating the setTheme
@@ -27,13 +28,14 @@ export function ThemeChange() {
         // Thank you: https://stackoverflow.com/a/57693953
         document.body.style.background = themeModes[theme].backgoundColor
         document.documentElement.style.setProperty('--fontColor', themeModes[theme].fontColor);
-
+        function handler(){
+            darkmodePref.matches ? setTheme('dark') : setTheme('light')
+        }
         // This will write it to the local storage
         localStorage.setItem('theme', theme)
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener( 'change', (e) => {e.matches ? setTheme('dark') : setTheme('light')})
-        return (
-            window.matchMedia('(prefers-color-scheme: dark)').removeEventListener( 'change', (e) => {e.matches ? setTheme('dark') : setTheme('light')})
-        )
+        darkmodePref.addEventListener( 'change', handler)
+        return () => darkmodePref.removeEventListener('change', handler);
+        
 
         // This is very important, everytime changes happen to: the theme, useEffect will happen once again.
     }, [theme])
