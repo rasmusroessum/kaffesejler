@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ThemeChange } from './ThemeChange'
 
 function getRandom (){
@@ -30,9 +30,6 @@ function Vaccine(){
 }
 
 function App(){
-  const iconStyling = {
-    heigth: '2em'
-  }
   return (
     <div>
       
